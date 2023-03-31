@@ -1,0 +1,19 @@
+PART 3 QUERY:
+
+SELECT DISTINCT vs.name, vs.capacity
+FROM vessel vs, shipment s, voyage v
+WHERE s.voyage = v.id AND v.vessel = vs.name AND vs.capacity < (SELECT SUM(s2.volume) FROM shipment s2, voyage v2, vessel vs2 WHERE s2.voyage=v2.id AND v2.vessel = vs2.name)
+
+
+PART 4 QUERY:
+
+SELECT v1.vessel,
+       v1.depdate,
+       v1.arrdate,
+       v2.id      as overlapping_voyage_id,
+       v2.depdate as overlapping_departure_date,
+       v2.arrdate as overlapping_arrival_date
+FROM voyage v1
+         INNER JOIN voyage v2 ON v1.vessel = v2.vessel
+WHERE v1.id <> v2.id
+  AND (v2.depdate < v1.arrdate AND v2.arrdate > v1.depdate)
