@@ -43,7 +43,7 @@ public class TableCreation {
 
 				HashSet<String> vessel = new HashSet<>();
 				HashSet<String> port = new HashSet<>();
-				BufferedReader in = new BufferedReader(new FileReader("/Users/amir/Downloads/routes.csv"));
+				BufferedReader in = new BufferedReader(new FileReader("routes.csv"));
 				try {
 					while (true) {
 						String s = in.readLine();
