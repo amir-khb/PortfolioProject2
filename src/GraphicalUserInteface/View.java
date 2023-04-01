@@ -15,7 +15,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -57,7 +56,7 @@ public class View extends Application {
 		button1.setOnAction(e -> searchButton());
 
 		Button button2 = new Button("Book Voyage");
-		button2.setOnAction(e -> handleButton2());
+		button2.setOnAction(e -> bookButton());
 
 		// Initialize output text field
 		outputText = new Text();
@@ -107,18 +106,21 @@ public class View extends Application {
 		}
 	}
 
-	private void handleButton2() {
+	private void bookButton() {
 		String[] result = searchHelper();
 		if (result == null) {
 			outputText.setText("No Voyage Found!");
 		} else {
+			//Query to insert shipment information
 			String query = "INSERT INTO shipment (voyage, volume, customer) " +
 					"VALUES( " + result[1] + ", " + Integer.parseInt(numContainers.getText()) + ", 'Customer')";
 			db.cmd(query);
+			//Query to get the capacity of the vessel in order to update the capacity
 			String query2 = "SELECT vs.capacity FROM vessel vs, voyage v " +
 					"WHERE vs.name = v.vessel AND v.id = " + result[1];
 			int capacity = Integer.parseInt(db.query(query2, "capacity").get(0));
 			int remainingCapacity = capacity - Integer.parseInt(numContainers.getText());
+			//Query to update the capacity of the vessel
 			String query3 = "UPDATE vessel SET capacity = " + remainingCapacity + " WHERE name = '" + result[0] + "'";
 			db.cmd(query3);
 		}
