@@ -15,7 +15,7 @@ public class DBConnection {
 		try {
 			String url = "jdbc:sqlite:identifier.sqlite";
 			conn = DriverManager.getConnection(url);
-			System.out.println("Success!");
+			//System.out.println("Success!");
 		} catch (SQLException e) {
 			System.out.println("cannot open");
 			if (conn != null) close();
